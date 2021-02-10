@@ -1,0 +1,211 @@
+<!-- <app-header-navbar></app-header-navbar> -->
+
+
+<!-- {{model.attributes}} -->
+
+
+<div *ngIf="model" class="container marginT60  marginB30" style="max-width:700px;">
+    <div class="row" style="padding:30px;">
+        <div class="col-12">
+            <h2>{{model.unique_form_name}}</h2>
+        </div>
+        <div class="col-12">
+            <p>{{model.description}}</p>
+        </div>
+        <ng-container *ngIf="model.form_active_status == 'true'" class="col-12">
+            <form class="ftheme">
+                <div *ngIf="!success" class="col-12">
+                    <div *ngFor="let item of model.attributes" class="form-group">
+                        <div *ngIf="item.type=='text'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>{{item.label}}</mat-label>
+                                <i class="pull-right" *ngIf="item.info" mat-raised-button matTooltip="{{item.infomsg}}"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                    <mat-icon>info</mat-icon>
+                                </i>
+                                <input type="text" ngModel matInput id="{{item.name}}" placeholder="{{item.placeholder}}"
+                                    [(ngModel)]="item.value" [required]="item.required" [ngModelOptions]="{standalone: true}"
+                                    autocomplete="off">
+                            </mat-form-field>
+                            <mat-error *ngIf="Errormsg">{{Errormsg}}</mat-error>
+
+                        </div>
+                        <div *ngIf="item.type=='email'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>{{item.label}}</mat-label>
+                                <i class="pull-right" *ngIf="item.info" mat-raised-button matTooltip="{{item.infomsg}}"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                    <mat-icon>info</mat-icon>
+                                </i>
+                                <input type="email" matInput id="{{item.name}}" placeholder="{{item.placeholder}}"
+                                    [(ngModel)]="item.value" [required]="item.required" [ngModelOptions]="{standalone: true}"
+                                    autocomplete="off">
+                            </mat-form-field>
+                        </div>
+                        <div *ngIf="item.type=='phone'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>{{item.label}}</mat-label>
+                                <i class="pull-right" *ngIf="item.info" mat-raised-button matTooltip="{{item.infomsg}}"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                    <mat-icon>info</mat-icon>
+                                </i>
+                                <input type="text" matInput id="{{item.name}}" placeholder="{{item.placeholder}}"
+                                    [(ngModel)]="item.value" [required]="item.required" [ngModelOptions]="{standalone: true}"
+                                    autocomplete="off">
+                            </mat-form-field>
+                        </div>
+                        <div *ngIf="item.type=='number'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>{{item.label}}</mat-label>
+                                <i class="pull-right" *ngIf="item.info" mat-raised-button matTooltip="{{item.infomsg}}"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                    <mat-icon>info</mat-icon>
+                                </i>
+                                <input type="number" matInput id="{{item.name}}" min="{{item.min}}" max="{{item.max}}"
+                                    placeholder="{{item.placeholder}}" [(ngModel)]="item.value" [required]="item.required"
+                                    [ngModelOptions]="{standalone: true}" autocomplete="off">
+                            </mat-form-field>
+                        </div>
+                        <div *ngIf="item.type=='date'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>{{item.label}}</mat-label>
+                                <i class="pull-right" *ngIf="item.info" mat-raised-button matTooltip="{{item.infomsg}}"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                    <mat-icon>info</mat-icon>
+                                </i>
+                                <input matInput [min]="item.minDate" [max]="item.maxDate" [matDatepicker]="picker" id="{{item.name}}"
+                                    placeholder="{{item.placeholder}}" [(ngModel)]="item.value" [required]="item.required"
+                                    [ngModelOptions]="{standalone: true}" autocomplete="off">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <!-- <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label> -->
+                            <!-- <input type="date" class="form-control" id="{{item.name}}"
+                            placeholder="{{item.placeholder}}" [(ngModel)]="item.value"
+                            [ngModelOptions]="{standalone: true}" autocomplete="off"> -->
+                        </div>
+                        <div *ngIf="item.type=='datetime-local'">
+                            <label>{{item.label}}</label>
+                            <label *ngIf="item.required" class="text-danger">*</label>
+                            <i class="pull-right" *ngIf="item.info" mat-raised-button matTooltip="{{item.infomsg}}"
+                                aria-label="Button that displays a tooltip when focused or hovered over">
+                                <mat-icon>info</mat-icon>
+                            </i>
+                            <input type="datetime-local" class="form-control" id="{{item.name}}" placeholder="{{item.placeholder}}"
+                                [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}" autocomplete="off">
+                        </div>
+                        <div *ngIf="item.type=='textarea'">
+                            <label>{{item.label}}</label>
+                            <label *ngIf="item.required" class="text-danger">*</label>
+                            <i class="pull-right" *ngIf="item.info" mat-raised-button matTooltip="{{item.infomsg}}"
+                                aria-label="Button that displays a tooltip when focused or hovered over">
+                                <mat-icon>info</mat-icon>
+                            </i>
+                            <textarea class="form-control" id="{{item.name}}" placeholder="{{item.placeholder}}"
+                                [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}" autocomplete="off">
+                        </textarea>
+                        </div>
+                        <div *ngIf="item.type=='file'">
+                            <label>{{item.label}} (File can't be uploaded right now)</label>
+                            <label *ngIf="item.required" class="text-danger">*</label>
+                            <i class="pull-right" *ngIf="item.info" mat-raised-button matTooltip="{{item.infomsg}}"
+                                aria-label="Button that displays a tooltip when focused or hovered over">
+                                <mat-icon>info</mat-icon>
+                            </i>
+                            <input type="file" class="form-control" id="{{item.name}}" placeholder="{{item.placeholder}}"
+                                [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}" autocomplete="off">
+                            <small class="form-text text-danger">(File can't be uploaded right
+                                now)</small>
+                        </div>
+                        <div *ngIf="item.type=='paragraph'">
+                            <p class="form-text">{{item.placeholder}}</p>
+                        </div>
+                        <div *ngIf="item.type=='autocomplete'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>{{item.label}}</mat-label>
+                                <i class="pull-right" *ngIf="item.info" mat-raised-button matTooltip="{{item.infomsg}}"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                    <mat-icon>info</mat-icon>
+                                </i>
+                                <mat-select [required]="item.required" id="{{item.name}}" [(ngModel)]="item.value"
+                                    [ngModelOptions]="{standalone: true}" multiple="{{item.enableMutiSelect}}">
+                                    <mat-option *ngFor="let v of item.values" [value]="v.value">
+                                        {{v.label}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
+                        <select class="form-control" id="{{item.name}}" [(ngModel)]="item.value"
+                            [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let v of item.values" [value]="v.value">{{v.label}}</option>
+                        </select> -->
+                        </div>
+                        <div *ngIf="item.type=='checkbox'">
+                            <mat-label>{{item.label}}</mat-label>
+
+                            <mat-label *ngIf="item.required" class="text-danger"> *</mat-label>
+                            <i class="pull-right" *ngIf="item.info" mat-raised-button matTooltip="{{item.infomsg}}"
+                                aria-label="Button that displays a tooltip when focused or hovered over">
+                                <mat-icon>info</mat-icon>
+                            </i>
+                            <hr>
+
+                            <ng-container *ngFor="let v of item.values">
+
+                                <label class="pure-material-checkbox">
+                                    <input type="checkbox" [value]="v.value" name="{{item.name}}" (click)="toggleValue(v)"
+                                        [checked]="v.selected" />
+                                    <div>{{v.label}}</div>
+                                </label>
+                                <br>
+                            </ng-container>
+
+                            <!-- <label class="pure-material-checkbox">
+                            <input type="checkbox">
+                            <span>Checkbox</span>
+                        </label> -->
+                        </div>
+                        <div *ngIf="item.type=='radio'">
+                            <mat-label>{{item.label}}</mat-label>
+                            <mat-label *ngIf="item.required" class="text-danger"> *</mat-label>
+                            <i class="pull-right" *ngIf="item.info" mat-raised-button matTooltip="{{item.infomsg}}"
+                                aria-label="Button that displays a tooltip when focused or hovered over">
+                                <mat-icon>info</mat-icon>
+                            </i>
+                            <hr>
+                            <mat-radio-group aria-label="Select an option" [required]="item.required" [(ngModel)]="item.value"
+                                color="primary" [ngModelOptions]="{standalone: true}">
+                                <div *ngFor="let v of item.values">
+                                    <mat-radio-button type="radio" [value]="v.value" name="{{item.name}}">{{v.label}}</mat-radio-button>
+                                </div>
+                            </mat-radio-group>
+                            <!-- <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label> -->
+                            <!-- <div *ngFor="let v of item.values" class="inline-form-group">
+                            <label class="cust-check-bx">
+                                <input type="radio" [value]="v.value" name="{{item.name}}"
+                                    [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
+                                {{v.label}}
+                                <span class="checkmark"></span>
+                            </label>
+                        </div> -->
+                        </div>
+                        <div *ngIf="item.type=='button' && create" class="btn-cont">
+                            <input type="{{item.subtype}}" value="{{item.label}}" class="btn btn-primary" id="{{item.name}}"
+                                (click)="onSubmit()">
+                        </div>
+                        <div *ngIf="item.type=='button' && edit" class="btn-cont">
+                            <input type="{{item.subtype}}" value="Update" class="btn btn-primary" id="{{item.name}}"
+                                (click)="onUpdate()">
+                        </div>
+                    </div>
+                    <!-- <p (click)="show=1" class="marginT60 pointer">Show developer data</p> -->
+                </div>
+            </form>
+        </ng-container>
+        <div *ngIf="model.form_active_status == 'false'" class="col-12">
+            <div class="box">
+                Form is Inactive Right Now
+            </div>
+        </div>
+    </div>
+</div>

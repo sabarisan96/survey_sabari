@@ -1,0 +1,17 @@
+.mat-card{
+    width: 950px;
+    left:15%;
+    padding: 1.5%;
+}
+
+.mat-form-field{
+    width: 100%;
+}
+
+.mat-edit_icon:hover{
+    cursor: pointer;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+}

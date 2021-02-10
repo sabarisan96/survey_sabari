@@ -1,0 +1,134 @@
+<app-header-navbar></app-header-navbar>
+
+<div class="container mat-elevation-z8" #TABLE>
+
+    <ng-container>
+        <button mat-raised-button color="primary" (click)="exportExcel()" class="pull-right excel-btn">
+            Export as Excel
+        </button>
+    </ng-container>
+    <div class="row">
+        <mat-toolbar>
+            <mat-form-field color="accent">
+                <input matInput (keyup)="filterText($event.target.value)" placeholder="Filter" />
+            </mat-form-field>
+        </mat-toolbar>
+    </div>
+
+    <div class="mat-elevation-z8">
+        <div class="loading-shade" *ngIf="isResultsLoading">
+            <mat-spinner color="accent" *ngIf="isResultsLoading"></mat-spinner>
+        </div>
+    </div>
+    <mat-table #table class="mat-table" [dataSource]="dataSource" matSort>
+        <!-- Id Column -->
+        <ng-container matColumnDef="sno">
+            <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Sno. </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </mat-cell>
+        </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="unique_form_name">
+            <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Form Name </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.unique_form_name}} </mat-cell>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="description">
+            <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+        </ng-container>
+
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+            <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Created on </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.createdTime | date}} </mat-cell>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="form_action">
+            <mat-header-cell mat-header-cell *matHeaderCellDef>Form Action </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="editFormHandler(element._id)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                    </button>
+                    <button mat-menu-item (click)="confirmDialog(element._id)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Remove</span>
+                    </button>
+                    <button mat-menu-item>
+                        Private <mat-slide-toggle color="primary" name="{{element.name}}" [checked]="element.form_public_link
+                        === 'true' ? true : false"
+                            (change)="setPublicPrivateValue( element._id , $event )">Public
+                        </mat-slide-toggle>
+                    </button>
+                </mat-menu>
+            </mat-cell>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="form_data">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Entries </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="viewFormBtnHandler(element._id)">
+                        <mat-icon>add</mat-icon>
+                        <span>Add New</span>
+                    </button>
+                    <ng-container *ngIf="element.data_count > 0">
+                        <button mat-menu-item (click)="viewFormResponse(element._id)">
+                            <mat-icon>remove_red_eye</mat-icon>
+                            <span>List All</span>
+                        </button>
+                    </ng-container>
+                </mat-menu>
+            </mat-cell>
+
+        </ng-container>
+        <ng-container matColumnDef="data_count">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Entry Count </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+                <mat-icon matBadge="{{element.data_count}}" matBadgePosition="above after">
+                    description
+                </mat-icon>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="active_inactive">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Form Status </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+                <mat-slide-toggle color="primary" name="{{element.name}}" [checked]="element.form_active_status === 'true' ? true : false"
+                    (change)="setValue( element._id , $event )">Active
+                </mat-slide-toggle>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="link">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Form URL </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" class="mat-copy">
+                    <mat-form-field color="accent">
+                        <input type="text" matInput value="{{app_url}}/#/data/{{element._id}}" #userinput>
+                    </mat-form-field>
+                    <button color="primary" mat-button (click)="copyInputMessage(userinput)" value="click to copy">copy</button>
+                </mat-menu>
+
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [length]="resultsLength" [showFirstLastButtons]="true" [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
+    </mat-paginator>
+</div>

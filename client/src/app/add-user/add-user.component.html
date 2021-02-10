@@ -1,0 +1,73 @@
+Add New User
+    <div *ngIf="isResultsLoading" class="mat-elevation-z8">
+        <div class="loading-shade">
+            <mat-spinner color="primary"></mat-spinner>
+        </div>
+    </div>
+
+<form [formGroup]="addUserForm" (change)="formChanged()">
+    <mat-grid-list cols="2" [cols]="breakpoint" rowHeight="85px" (window:resize)="onResize($event)">
+        <mat-grid-tile>
+            <div class="text-inside">
+              <mat-form-field>
+                <input matInput placeholder="Enter name" value={{name}} formControlName="name" required>
+                <mat-error *ngIf="addUserForm.controls.name.hasError('required')">
+                  Please enter name
+                </mat-error>
+                <mat-error *ngIf="addUserForm.controls.name.hasError('pattern')">
+                  Please enter valid name
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="text-inside">
+          <mat-form-field>
+            <input matInput placeholder="Enter email id" value={{email}} formControlName="email" required>
+            <mat-error *ngIf="addUserForm.controls.email.hasError('required')">
+              Please enter email
+            </mat-error>
+            <mat-error *ngIf="addUserForm.controls.email.hasError('pattern')">
+              Please enter valid email
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="text-inside">
+          <mat-form-field class="example-full-width">
+            <input [type]="hide ? 'password' : 'text'" matInput placeholder="Password" value={{lname}} formControlName="password" required>
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="addUserForm.controls.password.hasError('required')">
+              Please enter password
+            </mat-error>
+            <mat-error *ngIf="addUserForm.controls.password.hasError('pattern')">
+              Please enter valid password
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+            <div class="text-inside">
+                <mat-form-field class="example-full-width">
+                    <mat-select formControlName="user_type_id" placeholder="Select User Type">
+                        <mat-option  [value]="">Select the Option</mat-option>
+                        <mat-option  [value]="1">Super Admin</mat-option>
+                    </mat-select>
+                  <!-- <input matInput placeholder="User Type" value={{user_type_id}} formControlName="user_type_id" required> -->
+                  <mat-error *ngIf="addUserForm.controls.user_type_id.hasError('required')">
+                    Please select user type
+                  </mat-error>
+                  
+                </mat-form-field>
+              </div>
+        </mat-grid-tile>
+        
+      </mat-grid-list>
+
+    <div class="btn-sec">
+      <button mat-raised-button type="submit" color="primary" class="Update-btn" (click)="onAddUser()" [disabled]="!addUserForm.valid">Save</button>
+      <button mat-raised-button type="button" class="Discard-btn" (click)="openDialog()">Cancel</button>
+    </div>
+
+  </form>

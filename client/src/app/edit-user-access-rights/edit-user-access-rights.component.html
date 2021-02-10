@@ -1,0 +1,82 @@
+<app-header-navbar></app-header-navbar>
+<!-- <form [formGroup]="addUserAccessRights">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                {{formData.unique_form_name}}
+            </mat-card-title>
+
+        </mat-card-header>
+        <mat-card-content>
+
+            <mat-form-field>
+                <mat-label>Select Users</mat-label>
+                <mat-select formControlName="users" [(ngModel)]='selectedValue' multiple>
+                    <mat-option *ngFor="let user of usersList" [value]="user._id">{{user.name}} - ({{user.email}})</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-footer>
+            <button mat-raised-button color="primary" *ngIf="isUpdate" [disabled]="!addUserAccessRights.valid" (click)="updateAccessrights()">Update
+                Access Rights <mat-icon>arrow_right_alt</mat-icon> </button>
+            <button mat-raised-button color="primary" *ngIf="isInsert" [disabled]="!addUserAccessRights.valid" (click)="createAccessrights()">Create
+                Access Rights <mat-icon>arrow_right_alt</mat-icon> </button>
+        </mat-card-footer>
+
+    </mat-card>
+
+</form> -->
+
+<br />
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            {{formData.unique_form_name}}
+        </mat-card-title>
+
+    </mat-card-header>
+    <mat-table #table class="mat-table" [dataSource]="dataSource" matSort>
+        <!-- Id Column -->
+        <ng-container matColumnDef="sno" class="sno">
+            <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Sno. </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </mat-cell>
+        </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="username">
+            <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Username </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.name}} ({{element.email}}) </mat-cell>
+        </ng-container>
+        <!-- Weight Column -->
+        <ng-container matColumnDef="AccessRights" class="accessRights">
+            <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Access Rights </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+                <mat-radio-group aria-label="Select an option" [(ngModel)]="element.access_type" color="primary"
+                    (change)="updateNewAccessRights(element._id,$event)" [ngModelOptions]="{standalone: true}">
+                    <mat-radio-button value="1">Read</mat-radio-button>
+                    <mat-radio-button value="2">Read/Write</mat-radio-button>
+                    <mat-radio-button value="3">No Access</mat-radio-button>
+                </mat-radio-group>
+            </mat-cell>
+        </ng-container>
+
+        <!-- Date Column -->
+        <ng-container matColumnDef="ReadWrite">
+            <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Read/Write </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-card-footer>
+        <br />
+        <button mat-raised-button color="primary" *ngIf="isUpdate" [disabled]="!addUserAccessRights.valid" (click)="updateAccessrights()">Update
+            Access Rights <mat-icon>arrow_right_alt</mat-icon> </button>
+        <button mat-raised-button color="primary" *ngIf="isInsert" [disabled]="!addUserAccessRights.valid" (click)="createAccessrights()">Create
+            Access Rights <mat-icon>arrow_right_alt</mat-icon> </button>
+    </mat-card-footer>
+</mat-card>
+<br>
+<!-- {{newAccessRighs | json}} -->
+
+<br />

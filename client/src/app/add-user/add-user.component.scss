@@ -1,0 +1,23 @@
+.loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mat-grid-list {
+    // position: absolute;
+    // width: 300px;
+    // height: 400px;
+    z-index: 5;
+    top: 30%;
+    // left: 50%;
+    // margin: -100px 0 0 -150px;
+    // background: red;
+  }

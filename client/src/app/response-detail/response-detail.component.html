@@ -1,0 +1,43 @@
+<app-header-navbar></app-header-navbar>
+
+<div class="container-fluid col-sm-6">
+    <ng-container>
+        <button mat-raised-button color="primary" (click)="backClicked()">
+            <mat-icon>arrow_left</mat-icon>Go Back
+        </button>
+    </ng-container>
+    <br>
+    <br>
+    <ng-container>
+        <mat-card class="example-card" *ngFor="let item of formData">
+            <mat-card-header>
+                <mat-card-title>{{formName}}</mat-card-title>
+                <mat-card-subtitle>Created date : {{item.createdTime | date}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-list>
+                    <mat-list-item role="listitem" *ngFor="let v of item.data.attributes">
+                        <ng-container *ngIf="v.type != 'button' && v.value!=''">
+                            <div class="row">
+                                <div class="col-sm-4" style="width: 500px;">{{v.name}}</div>
+                                <div class="col-sm-8">
+                                    <ng-container *ngIf="v.type=='checkbox'">
+                                        <ng-container *ngFor="let checkData of v.values">
+                                            <ng-container *ngIf="checkData.selected">
+                                                {{checkData.value}} ,
+                                            </ng-container>
+                                        </ng-container>
+
+                                    </ng-container>
+                                    {{ v.value}}
+                                </div>
+                            </div>
+                            <mat-divider></mat-divider>
+                        </ng-container>
+
+                    </mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+    </ng-container>
+</div>

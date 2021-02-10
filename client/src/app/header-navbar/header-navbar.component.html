@@ -1,0 +1,57 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>Form Builder</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-toolbar>
+    <!-- <button mat-button color= "primary" [routerLink]="['']" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active">Create
+        form</button>
+    <button mat-button color="primary" [routerLink]="['/listForms']" routerLinkActive="active">List forms</button>
+    <button mat-button color="primary" [matMenuTriggerFor]="users">
+        Users
+    </button>
+    <mat-menu #users="matMenu">
+        <button mat-menu-item [routerLink]="['/manageUsers']" routerLinkActive="active">
+            Add/Delete Users
+        </button>
+        <button mat-menu-item [routerLink]="['/userAccessRights']" routerLinkActive="active">
+            User Access Rights
+        </button>
+    </mat-menu> -->
+    <ng-container *ngIf="menuData">
+        <ng-container *ngFor="let mn of menuData">
+            <ng-container *ngIf="!mn.submenu">
+                <button mat-button routerLink="/{{mn.menu_link}}" color="primary" [routerLinkActiveOptions]="{exact:true}"
+                    routerLinkActive="active">{{mn.menu_name}}</button>
+            </ng-container>
+            <ng-container *ngIf="mn.submenu">
+                <button mat-button color="primary" [matMenuTriggerFor]="users">{{mn.menu_name}}</button>
+            </ng-container>
+            <mat-menu #users="matMenu">
+                <ng-container *ngFor="let submn of mn.submenu">
+                    <button mat-menu-item routerLink="/{{submn.menu_link}}" routerLinkActive="active">
+                        {{submn.menu_name}}
+                    </button>
+                </ng-container>
+                <!-- <button mat-menu-item [routerLink]="['/userAccessRights']" routerLinkActive="active">
+                User Access Rights
+            </button> -->
+            </mat-menu>
+        </ng-container>
+    </ng-container>
+
+    <div class="menu-bar">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            Logout <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="logoutUser()">
+                <mat-icon>logout</mat-icon>
+                <span>Logout</span>
+            </button>
+        </mat-menu>
+    </div>
+</mat-toolbar>
+<br>
+
+<!-- {{ menu | json }} -->

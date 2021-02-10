@@ -1,0 +1,106 @@
+<app-header-navbar></app-header-navbar>
+
+<div class="container-fluid">
+    <ng-container>
+        <button mat-raised-button color="primary" (click)="backClicked()">
+            <mat-icon>arrow_left</mat-icon>Go Back
+        </button>
+    </ng-container>
+</div>
+<section class="md-ui component-data-table">
+    <header class="main-table-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="table-header--title">{{formName}}</h1>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="pull-right" style="width:50%;">
+                    <mat-label>
+                        Select columns to display
+                    </mat-label>
+                    <mat-select multiple [formControl]="toppings">
+                        <ng-container *ngFor="let item of dtaheader">
+                            <mat-option *ngIf="item.name && item.type != 'button'" [value]="item.name" (click)="toggleValue(item.name)"
+                                checked>
+                                {{item.name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- <div *ngFor="let item of dtaheader | keyvalue" class="inline-form-group">
+            <mat-checkbox [value]="item.item" (click)="toggleValue(item.key)">
+                {{item.key}}
+            </mat-checkbox>
+        </div> -->
+    </header>
+    <div class="main-table-wrapper">
+        <table class="main-table-content">
+            <thead class="data-table-header">
+                <tr class="data-table-row">
+                    <ng-container *ngFor="let item of this.dtaheader">
+                        <ng-container *ngIf="item.display && item.name && item.type != 'button'">
+                            <td>
+                                {{item.name}}
+                            </td>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="dtaheader">
+                        <td>Action</td>
+                    </ng-container>
+
+                    <!-- <td class="table-datacell datatype-string" *ngFor="let item of dwa | keyvalue"> {{item.key}}</td> -->
+                    <!-- <td>Created date</td> -->
+                </tr>
+            </thead>
+            <tbody class="data-table-content">
+                <tr class="data-table-row" *ngFor="let item of formData">
+                    <ng-container *ngIf="item.data">
+                        <ng-container *ngFor="let attribData of item.data.attributes">
+                            <ng-container *ngFor="let tbHeader of this.dtaheader">
+                                <td *ngIf="tbHeader.display && tbHeader.name == attribData.name && attribData.type != 'button'">
+                                    <ng-container *ngIf="attribData.type=='date'">
+                                        {{attribData.value | date}}
+                                    </ng-container>
+                                    <ng-container *ngIf="attribData.type=='checkbox'">
+
+                                        <ng-container *ngFor="let checkData of attribData.values">
+                                            <ng-container *ngIf="checkData.selected">
+                                                {{checkData.value}} ,
+                                            </ng-container>
+                                        </ng-container>
+
+                                    </ng-container>
+                                    <ng-container *ngIf="attribData.type!=='date'">
+                                        {{attribData.value}}
+                                    </ng-container>
+                                </td>
+                            </ng-container>
+                        </ng-container>
+                        <td>
+                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="detailedFormData(item._id)">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                    <span>Detail Data</span>
+                                </button>
+                                <button mat-menu-item (click)="editFormData(item.form_id,item._id)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Edit Data</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDialog(item._id)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Delete Data</span>
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
